@@ -12,7 +12,7 @@ import {
 
 import {
   globalIdField,
-  connectionFromArray,
+  connectionFromPromisedArray,
   connectionArgs,
   connectionDefinitions
 } from 'graphql-relay';
@@ -35,7 +35,9 @@ const itemType = new GraphQLObjectType({
 });
 
 function resolveItemConnection(topItem, args) {
-  return topItem.items.map((id) => getItem(id));
+  return new Promise((resolve, reject) => {
+    resolve(topItem.items.map(id => getItem(id)));
+  });
 }
 
 const {connectionType: itemConnection} =
@@ -50,7 +52,7 @@ const topItemType = new GraphQLObjectType({
       type: itemConnection,
       description: 'The top items.',
       args: connectionArgs,
-      resolve: (topItem, args) => connectionFromArray(
+      resolve: (topItem, args) => connectionFromPromisedArray(
         resolveItemConnection(topItem, args),
         args
       )
