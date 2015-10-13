@@ -4,11 +4,11 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-server": "npm run clean && babel server --optional runtime --out-dir build",
-    "lint": "eslint server",
-    "start": "node ./build/index.js",
+    "build-server": "npm run clean && babel src --optional runtime --out-dir build",
+    "lint": "eslint src",
+    "start": "node ./build/server/index.js",
     "prestart": "npm run build-server",
-    "debug": "node --debug ./build/server.js"
+    "debug": "node --debug ./build/server/index.js"
   },
   "keywords": [
     "graphql"
@@ -16,10 +16,12 @@
   "author": "Mike Wilcox <mwilcox56@gmail.com> (http://github.com/mjw56)",
   "license": "MIT",
   "dependencies": {
+    "dataloader": "^1.0.0",
     "express": "^4.13.3",
     "express-graphql": "^0.4.0",
     "graphql": "^0.4.7",
-    "graphql-relay": "^0.3.2"
+    "graphql-relay": "^0.3.2",
+    "isomorphic-fetch": "^2.1.1"
   },
   "devDependencies": {
     "babel": "^5.8.23",
