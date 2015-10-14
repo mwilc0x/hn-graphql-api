@@ -35,6 +35,9 @@ var UserType = new GraphQLObjectType({
       type: GraphQLInt,
       description: `Delay in minutes between a comment's creation and its
                     visibility to other users.`
+    },
+    submitted: {
+      ...itemsConnection
     }
   })
 });
