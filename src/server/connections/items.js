@@ -12,10 +12,12 @@ import ItemType from '../../types/item';
 
 function resolveItemConnection(items, args) {
   let fragment;
+  const list = items.submitted ? items.submitted : items;
+
   if (args.first) {
-    fragment = items.slice(0, args.first);
+    fragment = list.slice(0, args.first);
   } else {
-    fragment = items;
+    fragment = list;
   }
   return Promise.all(fragment.map(id => getItem(id)));
 }
@@ -34,5 +36,6 @@ const itemsConnection = {
 };
 
 export {
+  itemConnection,
   itemsConnection
 };

@@ -8,6 +8,10 @@ import {
   getItem
 } from '../api';
 
+import {
+  itemConnection
+} from './items';
+
 import ItemType from '../../types/item';
 
 function resolveSubmittedConnection(user, args) {
@@ -20,11 +24,8 @@ function resolveSubmittedConnection(user, args) {
   return Promise.all(fragment.map(id => getItem(id)));
 }
 
-const {connectionType: submittedConnection} =
-  connectionDefinitions({name: `Item`, nodeType: ItemType});
-
-const submissionsConnection = {
-  type: submittedConnection,
+const submittedConnection = {
+  type: itemConnection,
   description: `A list of item id's.`,
   args: connectionArgs,
   resolve: (user, args) => connectionFromPromisedArray(
@@ -34,5 +35,5 @@ const submissionsConnection = {
 };
 
 export {
-  submissionsConnection
+  submittedConnection
 };
