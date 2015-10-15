@@ -15,6 +15,10 @@ import {
   usersConnection
 } from '../server/connections/user';
 
+import {
+  itemsConnection
+} from '../server/connections/items';
+
 var ItemType = new GraphQLObjectType({
   name: `Item`,
   fields: () => ({
@@ -49,8 +53,7 @@ var ItemType = new GraphQLObjectType({
                     the relevant story. For pollopts, the relevant poll.`
     },
     kids: {
-      type: new GraphQLList(GraphQLString),
-      description: `The ids of the 's comments, in ranked display order.`
+      ...itemsConnection
     },
     url: {
       type: GraphQLString,

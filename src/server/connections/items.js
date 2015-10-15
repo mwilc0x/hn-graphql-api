@@ -12,7 +12,15 @@ import ItemType from '../../types/item';
 
 function resolveItemConnection(items, args) {
   let fragment;
-  const list = items.submitted ? items.submitted : items;
+  let list;
+
+  if (items.submitted) {
+    list = items.submitted;
+  } else if (items.kids) {
+    list = items.kids;
+  } else {
+    list = items;
+  }
 
   if (args.first) {
     fragment = list.slice(0, args.first);
