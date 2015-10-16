@@ -18,6 +18,7 @@ import {
 } from 'graphql-relay';
 
 import {
+  getAskStories,
   getTopStories
 } from './api';
 
@@ -38,12 +39,27 @@ const topItemType = new GraphQLObjectType({
   })
 });
 
+const askStoriesType = new GraphQLObjectType({
+  name: 'AskStories',
+  description: 'Ask Stories list.',
+  fields: () => ({
+    id: globalIdField('AskStory'),
+    items: {
+      ...itemsConnection
+    }
+  })
+});
+
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
     topItems: {
       type: topItemType,
-      resolve: () => getTopStories(),
+      resolve: () => getTopStories()
+    },
+    askStories: {
+      type: askStoriesType,
+      resolve: () => getAskStories()
     }
   })
 });

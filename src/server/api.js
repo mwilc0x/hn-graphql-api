@@ -18,3 +18,9 @@ export async function getUser(id) {
   const user = await response.json();
   return user;
 }
+
+export async function getAskStories() {
+  const response = await fetch(config.askstories);
+  const stories = await response.json();
+  return stories;
+}
