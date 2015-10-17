@@ -24,3 +24,9 @@ export async function getAskStories() {
   const stories = await response.json();
   return stories;
 }
+
+export async function getShowStories() {
+  const response = await fetch(config.showstories);
+  const stories = await response.json();
+  return stories;
+}

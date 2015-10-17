@@ -19,6 +19,7 @@ import {
 
 import {
   getAskStories,
+  getShowStories,
   getTopStories
 } from './api';
 
@@ -50,6 +51,17 @@ const askStoriesType = new GraphQLObjectType({
   })
 });
 
+const showStoriesType = new GraphQLObjectType({
+  name: 'ShowStories',
+  description: 'Show Stories list.',
+  fields: () => ({
+    id: globalIdField('ShowStory'),
+    items: {
+      ...itemsConnection
+    }
+  })
+});
+
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
@@ -60,6 +72,10 @@ const queryType = new GraphQLObjectType({
     askStories: {
       type: askStoriesType,
       resolve: () => getAskStories()
+    },
+    showStories: {
+      type: showStoriesType,
+      resolve: () => getShowStories()
     }
   })
 });
