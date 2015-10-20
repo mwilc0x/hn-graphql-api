@@ -30,3 +30,9 @@ export async function getShowStories() {
   const stories = await response.json();
   return stories;
 }
+
+export async function getJobStories() {
+  const response = await fetch(config.jobstories);
+  const stories = await response.json();
+  return stories;
+}

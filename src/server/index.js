@@ -19,6 +19,7 @@ import {
 
 import {
   getAskStories,
+  getJobStories,
   getShowStories,
   getTopStories
 } from './api';
@@ -30,7 +31,7 @@ import {
 import ItemType from '../types/item';
 
 const topItemType = new GraphQLObjectType({
-  name: 'TopItem',
+  name: 'TopItems',
   description: 'Top items list.',
   fields: () => ({
     id: globalIdField('TopItem'),
@@ -45,7 +46,7 @@ const askStoriesType = new GraphQLObjectType({
   description: 'Ask Stories list.',
   fields: () => ({
     id: globalIdField('AskStory'),
-    items: {
+    stories: {
       ...itemsConnection
     }
   })
@@ -56,7 +57,18 @@ const showStoriesType = new GraphQLObjectType({
   description: 'Show Stories list.',
   fields: () => ({
     id: globalIdField('ShowStory'),
-    items: {
+    stories: {
+      ...itemsConnection
+    }
+  })
+});
+
+const jobStoriesType = new GraphQLObjectType({
+  name: 'JobStories',
+  description: 'Job Stories list.',
+  fields: () => ({
+    id: globalIdField('JobStory'),
+    stories: {
       ...itemsConnection
     }
   })
@@ -72,6 +84,10 @@ const queryType = new GraphQLObjectType({
     askStories: {
       type: askStoriesType,
       resolve: () => getAskStories()
+    },
+    jobStories: {
+      type: jobStoriesType,
+      resolve: () => getJobStories()
     },
     showStories: {
       type: showStoriesType,

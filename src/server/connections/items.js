@@ -1,4 +1,9 @@
 import {
+  GraphQLList
+} from 'graphql';
+
+import {
+  connectionFromArray,
   connectionFromPromisedArray,
   connectionArgs,
   connectionDefinitions
@@ -30,8 +35,17 @@ function resolveItemConnection(items, args) {
   return Promise.all(fragment.map(id => getItem(id)));
 }
 
-const {connectionType: itemConnection} =
-  connectionDefinitions({name: `Item`, nodeType: ItemType});
+const {connectionType: itemConnection} = connectionDefinitions({
+  name: `Item`,
+  nodeType: ItemType,
+  connectionFields: () => ({
+    list: {
+      type: new GraphQLList(ItemType),
+      resolve: conn => conn.edges.map(edge => edge.node),
+      description: 'testing!'
+    }
+  })
+});
 
 const itemsConnection = {
   type: itemConnection,
