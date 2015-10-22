@@ -8,7 +8,8 @@
     "lint": "eslint src",
     "start": "node ./build/server/index.js",
     "prestart": "npm run build-server",
-    "debug": "node --debug ./build/server/index.js"
+    "debug": "node --debug ./build/server/index.js",
+    "gen-schema": "mkdir data && babel-node ./src/genSchema.js"
   },
   "keywords": [
     "graphql"
@@ -16,12 +17,17 @@
   "author": "Mike Wilcox <mwilcox56@gmail.com> (http://github.com/mjw56)",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.14.1",
+    "cors": "^2.7.1",
     "dataloader": "^1.0.0",
     "express": "^4.13.3",
     "express-graphql": "^0.4.0",
     "graphql": "^0.4.7",
     "graphql-relay": "^0.3.2",
-    "isomorphic-fetch": "^2.1.1"
+    "http-proxy": "^1.11.3",
+    "isomorphic-fetch": "^2.1.1",
+    "node-http-proxy": "^0.2.3",
+    "proxy-middleware": "^0.14.0"
   },
   "devDependencies": {
     "babel": "^5.8.23",

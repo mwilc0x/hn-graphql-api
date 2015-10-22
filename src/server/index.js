@@ -1,5 +1,9 @@
+import fs from 'fs';
+import path from 'path';
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
+import bodyParser from 'body-parser'
+import cors from 'cors';
 
 const app = express();
 
@@ -11,6 +15,11 @@ import {
 } from 'graphql';
 
 import {
+  introspectionQuery,
+  printSchema
+} from 'graphql/utilities';
+
+import {
   globalIdField,
   connectionFromPromisedArray,
   connectionArgs,
@@ -19,7 +28,6 @@ import {
 
 import {
   getAskStories,
-  getJobStories,
   getShowStories,
   getTopStories
 } from './api';
@@ -31,7 +39,7 @@ import {
 import ItemType from '../types/item';
 
 const topItemType = new GraphQLObjectType({
-  name: 'TopItems',
+  name: 'TopItem',
   description: 'Top items list.',
   fields: () => ({
     id: globalIdField('TopItem'),
@@ -63,42 +71,33 @@ const showStoriesType = new GraphQLObjectType({
   })
 });
 
-const jobStoriesType = new GraphQLObjectType({
-  name: 'JobStories',
-  description: 'Job Stories list.',
-  fields: () => ({
-    id: globalIdField('JobStory'),
-    stories: {
-      ...itemsConnection
-    }
+const schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'Query',
+    fields: () => ({
+      topItems: {
+        type: topItemType,
+        resolve: () => getTopStories()
+      },
+      askStories: {
+        type: askStoriesType,
+        resolve: () => getAskStories()
+      },
+      showStories: {
+        type: showStoriesType,
+        resolve: () => getShowStories()
+      }
+    })
   })
 });
 
-const queryType = new GraphQLObjectType({
-  name: 'Query',
-  fields: () => ({
-    topItems: {
-      type: topItemType,
-      resolve: () => getTopStories()
-    },
-    askStories: {
-      type: askStoriesType,
-      resolve: () => getAskStories()
-    },
-    jobStories: {
-      type: jobStoriesType,
-      resolve: () => getJobStories()
-    },
-    showStories: {
-      type: showStoriesType,
-      resolve: () => getShowStories()
-    }
-  })
-});
+export {schema};
+
+app.use(cors());
 
 app.use('/graphql', graphqlHTTP({
-  schema: new GraphQLSchema({query: queryType}),
-  graphiql: true
+  schema: schema,
+  graphiql: false
 }));
 
 const server = app.listen(3100, () => {
